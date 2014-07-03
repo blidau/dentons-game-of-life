@@ -14,13 +14,28 @@
 	</style>
 	<script type="text/javascript">
 		var letters = ['a','b','c','d','e','f','g','A','B','C'];
+		
+		/* Define the cellular constants */
+		var ALIVE = true;
+		var DEAD = false;
+		var ROW_LENGTH = 22;
+		var CELL_COUNT = Math.pow(ROW_LENGTH,2);
+
+		function Cell(xLoc, yLoc) {
+			this.x = xLoc;
+			this.y = yLoc;
+			this.state = ALIVE; //alive
+			this.neighbourStates = [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD]; // NW, N, NE, E, SE, S, SW, W
+		}
+
+		var cells = [];
 
 		function initIncubation () {
 			var jar = document.getElementById("jar");
-			for (var cell = 0; cell < 484; cell++) {
+			for (var iCell = 0; iCell < CELL_COUNT; iCell++) {
 				var cellPlacement = document.createElement("span");
-				var xLocation = cell % 22;
-				var yLocation = Math.floor(cell / 22);
+				var xLocation = iCell % ROW_LENGTH;
+				var yLocation = Math.floor(iCell / ROW_LENGTH);
 				cellPlacement.id = "cell-" + xLocation + '-' + yLocation;
 				if (Math.random()<0.5) {
 					cellPlacement.className = "dead";
