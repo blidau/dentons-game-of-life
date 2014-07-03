@@ -2,21 +2,42 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Sound-less-scape</title>
+	<title>Denton's Game of Life</title>
 	<meta name="author" content="Benjamin Laird">
+	<link href='http://fonts.googleapis.com/css?family=Rye' rel='stylesheet' type='text/css'>
 	<style type="text/css" media="screen">
-		#jar { width:600px; background-color: #FFF;margin:0; margin:auto;}
-		#jar span { width:18px; height:18px; display:inline-block; border:1px solid #FFF; background-color: #000; color:#FFF;font-size: 1em; text-align:center;overflow: hidden;margin-top:-4px;}
-		#jar .white { background-color: #FFF; } /* change to empty */
+		body {background-color:#CCC;}
+		h1 { text-align: center; overflow: visible; margin-bottom:60px;font-family: 'Rye', cursive;font-size: 3em; line-height: 1em;}
+		#jar { width:450px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:120px 100px 150px 100px;background-size: 500px 890px;overflow: visible;}
+		#jar span { width:13px; height:13px; display:inline-block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 0.8em; text-align:center;overflow: hidden;line-height: 1em;}
+		#jar .dead { background-color: transparent; border:1px solid #CCC;} /* change to empty */
 	</style>
 	<script type="text/javascript">
-	function readyTheAudience(func) { var oldonload = window.onload; if (typeof window.onload != 'function') { window.onload = func;} else { window.onload = function() {if (oldonload) { oldonload(); } func(); } } }	
+		var letters = ['a','b','c','d','e','f','g','A','B','C'];
+
+		function initIncubation () {
+			var jar = document.getElementById("jar");
+			for (var cell = 0; cell < 900; cell++) {
+				var cellPlacement = document.createElement("span");
+				cellPlacement.id = "cell-" + cell;
+				if (Math.random()<0.5) {
+					cellPlacement.className = "dead";
+				} else {
+					cellPlacement.appendChild(document.createTextNode(letters[Math.floor(Math.random()*9)]));
+				}
+				jar.appendChild(cellPlacement);
+			}
+		}
+
+		function readyTheAudience(func) { var oldonload = window.onload; if (typeof window.onload != 'function') { window.onload = func;} else { window.onload = function() {if (oldonload) { oldonload(); } func(); } } }	
+
+
+		readyTheAudience(initIncubation);
 	</script>
 </head>
 <body>
-	<h1>Denton's Game of Life</h1>
 	<div id="jar">
-		<span>T</span><span>h</span><span>i</span><span>s</span><span>_</span><span>i</span><span>s</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>T</span><span>h</span><span>i</span><span>s</span><span>_</span><span>i</span><span>s</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>T</span><span class="white">h</span><span>i</span><span>s</span><span>_</span><span>i</span><span>s</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>T</span><span>h</span><span>i</span><span>s</span><span>_</span><span>i</span><span>s</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>T</span><span>h</span><span>i</span><span>s</span><span>_</span><span>i</span><span>s</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span class="white">_</span><span>_</span><span>_</span><span>T</span><span>h</span><span>i</span><span>s</span><span>_</span><span class="white">i</span><span>s</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+	<h1>Denton's <br><i>Game of Life</i></h1>
 	</div>
 </body>
 </html>	
