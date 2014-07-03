@@ -19,7 +19,9 @@
 			var jar = document.getElementById("jar");
 			for (var cell = 0; cell < 900; cell++) {
 				var cellPlacement = document.createElement("span");
-				cellPlacement.id = "cell-" + cell;
+				var xLocation = cell % 30;
+				var yLocation = Math.floor(cell / 30);
+				cellPlacement.id = "cell-" + xLocation + '-' + yLocation;
 				if (Math.random()<0.5) {
 					cellPlacement.className = "dead";
 				} else {
