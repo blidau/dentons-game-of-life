@@ -7,9 +7,9 @@
 	<link rel="stylesheet" href="./fonts/fonts.css" type="text/css" charset="utf-8">
 	<style type="text/css" media="screen">
 		body {background-color:#CCC;}
-		h1 { text-align: center; overflow: visible; margin-bottom:60px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal;}
-		#jar { width:450px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:120px 100px 150px 100px;background-size: 500px 890px;overflow: visible;}
-		#jar span { width:13px; height:13px; display:inline-block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 0.8em; text-align:center;overflow: hidden;line-height: 1em; }
+		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal;}
+		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:160px 100px 150px 100px;background-size: 500px 890px;overflow: visible;}
+		#jar span { width:18px; height:18px; display:inline-block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center;overflow: hidden;line-height: 1.1em; }
 		#jar .dead { background-color: transparent; border:1px solid #CCC;} /* change to empty */
 	</style>
 	<script type="text/javascript">
@@ -17,10 +17,10 @@
 
 		function initIncubation () {
 			var jar = document.getElementById("jar");
-			for (var cell = 0; cell < 900; cell++) {
+			for (var cell = 0; cell < 484; cell++) {
 				var cellPlacement = document.createElement("span");
-				var xLocation = cell % 30;
-				var yLocation = Math.floor(cell / 30);
+				var xLocation = cell % 22;
+				var yLocation = Math.floor(cell / 22);
 				cellPlacement.id = "cell-" + xLocation + '-' + yLocation;
 				if (Math.random()<0.5) {
 					cellPlacement.className = "dead";
