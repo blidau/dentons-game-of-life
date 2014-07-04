@@ -6,17 +6,18 @@
 	<meta name="author" content="Benjamin Laird">
 	<link rel="stylesheet" href="./fonts/fonts.css" type="text/css" charset="utf-8">
 	<style type="text/css" media="screen">
-		body {background-color:#CCC;}
-		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal;}
-		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:160px 100px 150px 100px;background-size: 500px 890px;overflow: visible;}
+		body { background-color:#CCC; }
+		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal; }
+		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:160px 100px 150px 100px;background-size: 500px 890px;overflow: visible; }
 		#jar span { width:18px; height:18px; display:inline-block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center;overflow: hidden;line-height: 1.1em; }
-		#jar .dead { background-color: transparent; border:1px solid #CCC; transition: background-color 5s;} /* change to empty */
+		#jar .dead { background-color: transparent; border:1px solid #CCC; transition: background-color 5s; } 
 	</style>
 	<script type="text/javascript">
-		var letters = ['a','b','c','d','e','f','g','A','B','C'];
+		/* Cell characters */
+		var letters = ['a','b','c','d','e','f','g','A','B','C']; // Replace with text from Denton's books
 		
 		/* Define the cellular constants */
-		var ALIVE = 1; /* for counting neighbours */
+		var ALIVE = 1;
 		var DEAD = 0;
 
 		/* A cell */
@@ -26,7 +27,7 @@
 			this.state = cellState;
 			this.neighbourStates = [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD]; // NW, N, NE, E, SE, S, SW, W
 		}
-		// Calculate the number of neighbours
+		/* Calculate the number of neighbours */
 		Cell.prototype.neighbours = function () {
 			var sum = 0;
 			for (var i=0; i < this.neighbourStates.length; i++) {
@@ -67,6 +68,7 @@
 			}
 			return true;
 		}
+		/* Find the cell index based on its x and y locations */
 		CellCulture.prototype.cultureIndex = function (x, y) {
 			var cellLocation = 0;
 			var cellX, cellY;
@@ -120,7 +122,7 @@
 				if (currentCell.state) {
 					cellPlacement.innerHTML = letters[Math.floor(Math.random()*9)];
 				}
-				/* Add cell to the jar */
+				/* Place cell in the jar */
 				jar.appendChild(cellPlacement);
 			}
 		}
