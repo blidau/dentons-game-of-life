@@ -10,46 +10,128 @@
 		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal;}
 		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:160px 100px 150px 100px;background-size: 500px 890px;overflow: visible;}
 		#jar span { width:18px; height:18px; display:inline-block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center;overflow: hidden;line-height: 1.1em; }
-		#jar .dead { background-color: transparent; border:1px solid #CCC;} /* change to empty */
+		#jar .dead { background-color: transparent; border:1px solid #CCC; transition: background-color 0.5s;} /* change to empty */
 	</style>
 	<script type="text/javascript">
 		var letters = ['a','b','c','d','e','f','g','A','B','C'];
 		
 		/* Define the cellular constants */
-		var ALIVE = true;
-		var DEAD = false;
-		var ROW_LENGTH = 22;
-		var CELL_COUNT = Math.pow(ROW_LENGTH,2);
+		var ALIVE = 1; /* for counting neighbours */
+		var DEAD = 0;
 
-		function Cell(xLoc, yLoc) {
+		/* A cell */
+		function Cell(xLoc, yLoc, cellState) {
 			this.x = xLoc;
 			this.y = yLoc;
-			this.state = ALIVE; //alive
+			this.state = cellState;
 			this.neighbourStates = [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD]; // NW, N, NE, E, SE, S, SW, W
 		}
+		// Calculate the number of neighbours
+		Cell.prototype.neighbours = function () {
+			var sum = 0;
+			for (var i=0; i < this.neighbourStates.length; i++) {
+				sum += this.neighbourStates[i];
+			}
+			return sum;
+		}
+		/* Update cells based on Conway's Game of Life */
+		Cell.prototype.updateState = function() {
+			var neighbouring = this.neighbours();
+			if ((((neighbouring > 1) && (neighbouring < 4)) && (this.state == ALIVE)) || 
+						((neighbouring==3) && (this.state == DEAD))) {
+				this.state = ALIVE;
+			} else {
+				this.state = DEAD;
+			}
+			return this.state;
+		}
+		Cell.prototype.getStateText = function() {
+			return this.state ? "alive" : "dead";
+		}
 
-		var cells = [];
+		/* A cell culture */
+		function CellCulture(cultureDepth) {
+			this.cells = [];
+			this.cultureDepth = cultureDepth; /* rows and columns */
+			this.cultureSize = Math.pow(cultureDepth,2); /* total count */
+		}
+		CellCulture.prototype.updateCellNeighbours = function() {
+			for (var i = 0; i < this.cells.length; i++) {
+				var cell = this.cells[i];
+				/* Determine neighbours */
+				cell.neighbourStates = [this.cells[this.cultureIndex(cell.x-1,cell.y-1)].state,
+										this.cells[this.cultureIndex(cell.x,cell.y-1)].state,
+										this.cells[this.cultureIndex(cell.x+1,cell.y-1)].state,
+										this.cells[this.cultureIndex(cell.x+1,cell.y)].state,
+										this.cells[this.cultureIndex(cell.x+1,cell.y+1)].state,
+										this.cells[this.cultureIndex(cell.x,cell.y+1)].state,
+										this.cells[this.cultureIndex(cell.x-1,cell.y+1)].state,
+										this.cells[this.cultureIndex(cell.x-1,cell.y)].state];
 
+			}
+			return true;
+		}
+		CellCulture.prototype.cultureIndex = function (x, y) {
+			var cellLocation = 0;
+			var cellX, cellY;
+			/* get actual index locations of cells */
+			cellX = x < 0 ? this.cultureDepth - 1 : x; 
+			cellX = x >= this.cultureDepth ? 0 : cellX;
+			cellY = y < 0 ? this.cultureDepth - 1 : y; 
+			cellY = y >= this.cultureDepth ? 0 : cellY;
+			cellLocation = (cellY * this.cultureDepth) + cellX;
+			return cellLocation;
+		}
+		
+		/* Cellular experiments */
+		var cellExperiment = new CellCulture(22);
+
+		function cultureChange() {
+			/* Determine neighbours */
+			cellExperiment.updateCellNeighbours();
+			
+			/* Update cell states */
+			for (var iCell = 0; iCell < cellExperiment.cultureSize ; iCell++) {
+				var cellPlacement = document.getElementById("cell-" + cellExperiment.cells[iCell].x + '-' + cellExperiment.cells[iCell].y);
+				/* update cell state */
+				cellExperiment.cells[iCell].updateState();
+				/* update jar */
+				cellPlacement.innerHTML = cellExperiment.cells[iCell].state ? letters[Math.floor(Math.random()*9)] : "";
+				cellPlacement.className = cellExperiment.cells[iCell].getStateText();
+			}
+		}
+		function cellIncubation () {
+			incubate = window.setInterval(cultureChange, 500);
+		}
+
+		/* Seed the cell culture */
 		function initIncubation () {
 			var jar = document.getElementById("jar");
-			for (var iCell = 0; iCell < CELL_COUNT; iCell++) {
+			for (var iCell = 0; iCell < cellExperiment.cultureSize ; iCell++) {
+				/* Initial material */
+				var xLocation = iCell % cellExperiment.cultureDepth;
+				var yLocation = Math.floor(iCell / cellExperiment.cultureDepth);
+				var cellState = Math.random()<0.5 ? DEAD : ALIVE;
+				
+				/* Create cell */
+				var currentCell = new Cell(xLocation, yLocation, cellState);
+				cellExperiment.cells.push(currentCell);
+
 				var cellPlacement = document.createElement("span");
-				var xLocation = iCell % ROW_LENGTH;
-				var yLocation = Math.floor(iCell / ROW_LENGTH);
 				cellPlacement.id = "cell-" + xLocation + '-' + yLocation;
-				if (Math.random()<0.5) {
-					cellPlacement.className = "dead";
-				} else {
-					cellPlacement.appendChild(document.createTextNode(letters[Math.floor(Math.random()*9)]));
+				cellPlacement.className = currentCell.getStateText();
+
+				if (currentCell.state) {
+					cellPlacement.innerHTML = letters[Math.floor(Math.random()*9)];
 				}
+				/* Add cell to the jar */
 				jar.appendChild(cellPlacement);
 			}
 		}
 
-		function readyTheAudience(func) { var oldonload = window.onload; if (typeof window.onload != 'function') { window.onload = func;} else { window.onload = function() {if (oldonload) { oldonload(); } func(); } } }	
-
-
+		function readyTheAudience(func) { var oldonload = window.onload; if (typeof window.onload != 'function') { window.onload = func;} else { window.onload = function() {if (oldonload) { oldonload(); } func(); } } }
 		readyTheAudience(initIncubation);
+		readyTheAudience(cellIncubation);
 	</script>
 </head>
 <body>
