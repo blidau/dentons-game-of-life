@@ -80,6 +80,12 @@
 			cellLocation = (cellY * this.cultureDepth) + cellX;
 			return cellLocation;
 		}
+		CellCulture.prototype.cultureLocation = function (index) {
+			var cellLocation = {'x' : 0, 'y' : 0};
+			cellLocation.x = index % this.cultureDepth;
+			cellLocation.y = Math.floor(index / this.cultureDepth);
+			return cellLocation;
+		}
 		
 		/* Cellular experiments */
 		var cellExperiment = new CellCulture(22);
