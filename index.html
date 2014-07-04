@@ -37,12 +37,8 @@
 		/* Update cells based on Conway's Game of Life */
 		Cell.prototype.updateState = function() {
 			var neighbouring = this.neighbours();
-			if ((((neighbouring > 1) && (neighbouring < 4)) && (this.state == ALIVE)) || 
-						((neighbouring==3) && (this.state == DEAD))) {
-				this.state = ALIVE;
-			} else {
-				this.state = DEAD;
-			}
+			this.state = ((((neighbouring > 1) && (neighbouring < 4)) && (this.state == ALIVE)) || 
+						((neighbouring==3) && (this.state == DEAD))) ? ALIVE : DEAD;
 			return this.state;
 		}
 		Cell.prototype.getStateText = function() {
