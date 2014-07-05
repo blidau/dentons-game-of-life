@@ -41,8 +41,11 @@
 			this.state = (((neighbouring == 2) && (this.state == ALIVE)) || (neighbouring == 3)) ? ALIVE : DEAD;
 			return this.state;
 		}
-		Cell.prototype.getStateText = function() {
+		Cell.prototype.stateText = function() {
 			return this.state ? "alive" : "dead";
+		}
+		Cell.prototype.cellId = function() {
+			return "cell-" + this.x + "-" + this.y;
 		}
 
 		/* A cell culture */
@@ -79,6 +82,7 @@
 			cellLocation = (cellY * this.cultureDepth) + cellX;
 			return cellLocation;
 		}
+		/* Find the cell x and y locations based on its index */
 		CellCulture.prototype.cultureLocation = function (index) {
 			var cellLocation = {'x' : 0, 'y' : 0};
 			cellLocation.x = index % this.cultureDepth;
@@ -95,12 +99,12 @@
 			
 			/* Update cell states */
 			for (var iCell = 0; iCell < cellExperiment.cultureSize ; iCell++) {
-				var cellPlacement = document.getElementById("cell-" + cellExperiment.cells[iCell].x + '-' + cellExperiment.cells[iCell].y);
+				var cellPlacement = document.getElementById(cellExperiment.cells[iCell].cellId());
 				/* update cell state */
 				cellExperiment.cells[iCell].updateState();
 				/* update jar */
 				cellPlacement.innerHTML = cellExperiment.cells[iCell].state ? letters[Math.floor(Math.random()*9)] : "";
-				cellPlacement.className = cellExperiment.cells[iCell].getStateText();
+				cellPlacement.className = cellExperiment.cells[iCell].stateText();
 			}
 		}
 		function cellIncubation () {
@@ -110,20 +114,20 @@
 		/* Seed the cell culture */
 		function initIncubation () {
 			var jar = document.getElementById("jar");
-			for (var iCell = 0; iCell < cellExperiment.cultureSize ; iCell++) {
+			for (var iCell = 0; iCell < cellExperiment.cultureSize; iCell++) {
 				/* Initial material */
-				var xLocation = iCell % cellExperiment.cultureDepth;
-				var yLocation = Math.floor(iCell / cellExperiment.cultureDepth);
+				var cellLocation = cellExperiment.cultureLocation(iCell);
 				var cellState = Math.random()<0.5 ? DEAD : ALIVE;
 				
 				/* Create cell */
-				var currentCell = new Cell(xLocation, yLocation, cellState);
+				var currentCell = new Cell(cellLocation.x, cellLocation.y, cellState);
 				cellExperiment.cells.push(currentCell);
 
 				var cellPlacement = document.createElement("span");
-				cellPlacement.id = "cell-" + xLocation + '-' + yLocation;
-				cellPlacement.className = currentCell.getStateText();
+				cellPlacement.id = currentCell.cellId();
+				cellPlacement.className = currentCell.stateText();
 
+				/* Add letter if cell is alive */
 				if (currentCell.state) {
 					cellPlacement.innerHTML = letters[Math.floor(Math.random()*9)];
 				}
