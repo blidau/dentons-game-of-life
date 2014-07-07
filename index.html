@@ -51,8 +51,8 @@
 		/* A cell culture */
 		function CellCulture(cultureDepth) {
 			this.cells = [];
-			this.cultureDepth = cultureDepth; /* rows and columns */
-			this.cultureSize = Math.pow(cultureDepth,2); /* total count */
+			this.cultureDepth = cultureDepth; // rows and columns
+			this.cultureSize = Math.pow(cultureDepth,2); // total count 
 		}
 		CellCulture.prototype.updateCellNeighbours = function() {
 			for (var i = 0; i < this.cells.length; i++) {
@@ -74,7 +74,7 @@
 		CellCulture.prototype.cultureIndex = function (x, y) {
 			var cellLocation = 0;
 			var cellX, cellY;
-			/* get actual index locations of cells */
+			/* Get actual index locations of cells */
 			cellX = x < 0 ? this.cultureDepth - 1 : x; 
 			cellX = x >= this.cultureDepth ? 0 : cellX;
 			cellY = y < 0 ? this.cultureDepth - 1 : y; 
@@ -114,8 +114,8 @@
 		/* Seed the cell culture */
 		function initIncubation () {
 			var jar = document.getElementById("jar");
+			/* Initial material */
 			for (var iCell = 0; iCell < cellExperiment.cultureSize; iCell++) {
-				/* Initial material */
 				var cellLocation = cellExperiment.cultureLocation(iCell);
 				var cellState = Math.random()<0.5 ? DEAD : ALIVE;
 				
