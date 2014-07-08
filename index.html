@@ -15,8 +15,14 @@
 		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:140px 100px 150px 100px;background-size: 500px 890px;overflow: visible; float:left;}
 		#jar span { width:18px; height:18px; display:block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center; overflow: hidden; line-height: 1.1em; float:left;}
 		#jar .dead { background-color: transparent; border:1px solid #CCC; -webkit-transition: background-color 5s; transition: background-color 5s; } 
-		#frame { width: 1260px; padding-right: 20px}
+		#frame { width: 1260px; padding-right: 20px; margin:auto;}
 		.panel { padding:0 20px 20px; background-color: #DDD; border:3px solid #666; float:right; width:540px; margin: 10px; clear:right;}
+		#buttons { list-style-type: none; }
+		#buttons li { display: inline-block; }
+		#buttons li a { display: block; width:98px; height: 20px; border:1px solid #000; text-align: center; padding: 39px 0; color: #000; text-decoration: none; border-radius: 50px; }
+		#buttons li a:link, #buttons li a:visited { color:#DDD; background-color: #000; }
+		#buttons li a:focus, #buttons li a:hover, #buttons li a:active { color:#000; background-color: #DDD; }
+
 	</style>
 	<script type="text/javascript">
 		/* Cell characters */
@@ -98,31 +104,70 @@
 		
 		/* Cellular experiments */
 		var cellExperiment = new CellCulture(22);
+		var activeExperiment = false;
 
 		function cultureChange() {
 			/* Determine neighbours */
 			cellExperiment.updateCellNeighbours();
 			
 			/* Update cell states */
-			for (var iCell = 0; iCell < cellExperiment.cultureSize ; iCell++) {
-				var cellPlacement = document.getElementById(cellExperiment.cells[iCell].cellId());
+			for (var i = 0; i < cellExperiment.cultureSize ; i++) {
+				var cellPlacement = document.getElementById(cellExperiment.cells[i].cellId());
 				/* update cell state */
-				cellExperiment.cells[iCell].updateState();
+				cellExperiment.cells[i].updateState();
 				/* update jar */
-				cellPlacement.innerHTML = cellExperiment.cells[iCell].state ? letters[Math.floor(Math.random()*9)] : "";
-				cellPlacement.className = cellExperiment.cells[iCell].stateText();
+				cellPlacement.innerHTML = cellExperiment.cells[i].state ? letters[Math.floor(Math.random()*9)] : "";
+				cellPlacement.className = cellExperiment.cells[i].stateText();
 			}
 		}
+		function beginNewIncubation() {
+			if (activeExperiment) {
+				/* Remove interval */
+				incubate = window.clearInterval(incubate);
+			}
+			/* Reset cells */
+			for (var i = 0; i < cellExperiment.cells.length; i++) {
+				var cellPlacement = document.getElementById(cellExperiment.cells[i].cellId());
+				var cellState = Math.random()<0.5 ? DEAD : ALIVE;
+				cellExperiment.cells[i].state = cellState;
+				cellPlacement.innerHTML = cellExperiment.cells[i].state ? letters[Math.floor(Math.random()*9)] : "";
+				cellPlacement.className = cellExperiment.cells[i].stateText();
+			}
+			cellIncubation();
+			return false;
+		}
+		function endIncubation() {
+			if (activeExperiment) {
+				/* Remove interval */
+				incubate = window.clearInterval(incubate);
+				for (var i = 0; i < cellExperiment.cells.length; i++) {
+					var cellPlacement = document.getElementById(cellExperiment.cells[i].cellId());
+					cellExperiment.cells[i].state = DEAD;
+					cellPlacement.innerHTML = "";
+					cellPlacement.className = cellExperiment.cells[i].stateText();
+				}
+			}
+			return false;
+		}
+
 		function cellIncubation () {
+			activeExperiment = true;
 			incubate = window.setInterval(cultureChange, 500);
 		}
 
 		/* Seed the cell culture */
 		function initIncubation () {
+			/* Add controls */
+			var beginButton = document.getElementById('begin');
+			var endButton = document.getElementById('end');
+			beginButton.onclick = beginNewIncubation;
+			endButton.onclick = endIncubation;
+
+			/* Place jar -- change jar to flask? */
 			var jar = document.getElementById("jar");
 			/* Initial material */
-			for (var iCell = 0; iCell < cellExperiment.cultureSize; iCell++) {
-				var cellLocation = cellExperiment.cultureLocation(iCell);
+			for (var i = 0; i < cellExperiment.cultureSize; i++) {
+				var cellLocation = cellExperiment.cultureLocation(i);
 				var cellState = Math.random()<0.5 ? DEAD : ALIVE;
 				
 				/* Create cell */
@@ -159,6 +204,10 @@
 	</div>
 	<div class="panel">
 		<h1>Controls</h1>
+		<ul id="buttons">
+			<li><a id="begin" href="#">Begin</a></li>
+			<li><a id="end" href="#">End</a></li>
+		</ul>
 	</div>
 	<br style="clear:both">
 	</div>
