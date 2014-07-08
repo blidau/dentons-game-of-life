@@ -1,20 +1,26 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8" />
 	<title>Denton's Game of Life</title>
 	<meta name="author" content="Benjamin Laird">
 	<link rel="stylesheet" href="./fonts/fonts.css" type="text/css" charset="utf-8">
 	<style type="text/css" media="screen">
 		body { background-color:#CCC; }
-		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal; }
-		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:160px 100px 150px 100px;background-size: 500px 890px;overflow: visible; }
-		#jar span { width:18px; height:18px; display:inline-block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center;overflow: hidden;line-height: 1.1em; }
-		#jar .dead { background-color: transparent; border:1px solid #CCC; transition: background-color 5s; } 
+		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal; padding:20px 0 0 0;}
+		blockquote { font-style: italic; }
+		blockquote p { margin:0; padding:0; }
+		cite { font-style: normal; display: block; text-align: right; }
+		cite::before { content: "— "; }
+		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:140px 100px 150px 100px;background-size: 500px 890px;overflow: visible; float:left;}
+		#jar span { width:18px; height:18px; display:block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center; overflow: hidden; line-height: 1.1em; float:left;}
+		#jar .dead { background-color: transparent; border:1px solid #CCC; -webkit-transition: background-color 5s; transition: background-color 5s; } 
+		#frame { width: 1260px; padding-right: 20px}
+		.panel { padding:0 20px 20px; background-color: #DDD; border:3px solid #666; float:right; width:540px; margin: 10px; clear:right;}
 	</style>
 	<script type="text/javascript">
 		/* Cell characters */
-		var letters = ['a','b','c','d','e','f','g','A','B','C']; // Replace with text from Denton's books
+		var letters = ['D','e','n','t','o','n','s','G','a','m']; // Replace with text from Denton's books
 		
 		/* Define the cellular constants */
 		var ALIVE = 1;
@@ -142,8 +148,19 @@
 	</script>
 </head>
 <body>
+	<div id="frame">
 	<div id="jar">
 	<h1>Denton's <br><i>Game of Life</i></h1>
+	</div>
+	<div class="panel">
+		<h1>Instructions</h1>
+		<blockquote><p>Professor Clark of Harvard College, who gives a detailed account of these experiments, says, <q>The fact that the experiments with the sealed flasks proved, if any thing can be proved beyond the reach of change or improvement, is that beings with motion, undoubted living beings, were produced where life could not have existed previously</q>. No failures to obtain living beings under any circumstances can overthrow the evidences of spontaneous generation furnished by such experiments as these.</p><cite>William Denton, <i>Is Darwin Right?</i></cite></blockquote>
+		<p>Denton’s <i>Game of Life</i> is &hellip;</p>
+	</div>
+	<div class="panel">
+		<h1>Controls</h1>
+	</div>
+	<br style="clear:both">
 	</div>
 </body>
 </html>	
