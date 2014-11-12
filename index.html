@@ -45,19 +45,17 @@
 	</style>
 	<script type="text/javascript">
 		/* Cell characters */
-		var letters = ['D','e','n','t','o','n','s','G','a','m']; // Replace with text from Denton's books
+		var letters = ['D','e','n','t','o','n','s','G','a','m']; // Replace with text from Denton's books? Or vary?
 		
 		/* Define the cellular constants */
 		var ALIVE = 1;
 		var DEAD = 0;
 
-		/* Define the cellular size */
-		var w = window.screen.width;
-
-		var deviceCultureSize = 22;
-
-		if (w <= 500) {
-			deviceCultureSize = 14;
+		/* Define the culture size based on screen width */
+		var shelfSpace = window.screen.width;
+		var petriDish = 22;
+		if (shelfSpace <= 500) {
+			petriDish = 14;
 		}
 		
 
@@ -132,7 +130,7 @@
 		}
 		
 		/* Cellular experiments */
-		var cellExperiment = new CellCulture(deviceCultureSize);
+		var cellExperiment = new CellCulture(petriDish);
 		var activeExperiment = false;
 
 		function cultureChange() {
