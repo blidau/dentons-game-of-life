@@ -4,25 +4,44 @@
 	<meta charset="UTF-8">
 	<title>Denton's Game of Life</title>
 	<meta name="author" content="Benjamin Laird">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<link rel="stylesheet" href="./fonts/fonts.css" type="text/css">
 	<style type="text/css" media="screen">
 		body { background-color:#CCC; }
-		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal; padding:20px 0 0 0;}
-		blockquote { font-style: italic; }
-		blockquote p { margin:0; padding:0; }
+		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal; padding: 0;}
+		blockquote { font-style: italic; margin: 0; padding: 20px; }
+		blockquote p { margin:0; padding:10px; }
 		cite { font-style: normal; display: block; text-align: right; }
 		cite::before { content: "— "; }
-		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:140px 100px 150px 100px;background-size: 500px 890px;overflow: visible; float:left;}
+		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:140px 50px 150px 50px;height:600px; background-size: 500px 890px;overflow: visible; float:left; }
 		#jar span { width:18px; height:18px; display:block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center; overflow: hidden; line-height: 1.1em; float:left;}
 		#jar .dead { background-color: transparent; border:1px solid #CCC; -webkit-transition: background-color 5s; transition: background-color 5s; } 
-		#frame { width: 1260px; padding-right: 20px; margin:auto;}
-		.panel { padding:0 20px 20px; background-color: #DDD; border:3px solid #666; float:right; width:540px; margin: 10px; clear:right;}
+		#case { min-width: 1000px; margin:auto;}
+		.panel { background-color: #DDD; border:3px solid #666; margin: 0 20px 20px 550px; }
 		#buttons { list-style-type: none; }
 		#buttons li { display: inline-block; }
 		#buttons li a { display: block; width:98px; height: 20px; border:1px solid #000; text-align: center; padding: 39px 0; color: #000; text-decoration: none; border-radius: 50px; }
 		#buttons li a:link, #buttons li a:visited { color:#DDD; background-color: #000; }
 		#buttons li a:focus, #buttons li a:hover, #buttons li a:active { color:#000; background-color: #DDD; }
-
+		@media screen and (max-width: 768px), screen and (max-device-width: 480px) {
+			#case {
+				min-width:0;
+			}
+			#jar {
+				float:none;
+				height:600px;
+				margin: auto;
+			}
+			.panel {
+				clear:left;
+				margin:20px;
+			}
+		}
+		@media screen and (max-device-width: 500px) {
+			h1 { font-size: 2em; margin: 20px 0; }
+			blockquote { padding: 10px; }
+			#jar { width:280px; margin:auto; padding:100px 20px 150px 20px;height:340px; background-size: 320px;overflow: visible; }
+		}
 	</style>
 	<script type="text/javascript">
 		/* Cell characters */
@@ -31,6 +50,16 @@
 		/* Define the cellular constants */
 		var ALIVE = 1;
 		var DEAD = 0;
+
+		/* Define the cellular size */
+		var w = window.screen.width;
+
+		var deviceCultureSize = 22;
+
+		if (w <= 500) {
+			deviceCultureSize = 14;
+		}
+		
 
 		/* A cell */
 		function Cell(xLoc, yLoc, cellState) {
@@ -103,7 +132,7 @@
 		}
 		
 		/* Cellular experiments */
-		var cellExperiment = new CellCulture(22);
+		var cellExperiment = new CellCulture(deviceCultureSize);
 		var activeExperiment = false;
 
 		function cultureChange() {
@@ -192,14 +221,9 @@
 	</script>
 </head>
 <body>
-	<div id="frame">
+	<div id="case">
 	<div id="jar">
 	<h1>Denton's <br><i>Game of Life</i></h1>
-	</div>
-	<div class="panel">
-		<h1>Instructions</h1>
-		<blockquote><p>Professor Clark of Harvard College, who gives a detailed account of these experiments, says, <q>The fact that the experiments with the sealed flasks proved, if any thing can be proved beyond the reach of change or improvement, is that beings with motion, undoubted living beings, were produced where life could not have existed previously</q>. No failures to obtain living beings under any circumstances can overthrow the evidences of spontaneous generation furnished by such experiments as these.</p><cite>William Denton, <i>Is Darwin Right?</i></cite></blockquote>
-		<p>Denton’s <i>Game of Life</i> is &hellip;</p>
 	</div>
 	<div class="panel">
 		<h1>Controls</h1>
@@ -208,7 +232,10 @@
 			<li><a id="end" href="#">End</a></li>
 		</ul>
 	</div>
-	<br style="clear:both">
+	<div class="panel">
+		<h1>About</h1>
+		<blockquote><p>Professor Clark of Harvard College, who gives a detailed account of these experiments, says, <q>The fact that the experiments with the sealed flasks proved, if any thing can be proved beyond the reach of change or improvement, is that beings with motion, undoubted living beings, were produced where life could not have existed previously</q>. No failures to obtain living beings under any circumstances can overthrow the evidences of spontaneous generation furnished by such experiments as these.</p><cite>William Denton, <i>Is Darwin Right?</i></cite></blockquote>
+	</div>
 	</div>
 </body>
-</html>	
+</html>
