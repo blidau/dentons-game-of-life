@@ -7,40 +7,52 @@
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<link rel="stylesheet" href="./fonts/fonts.css" type="text/css">
 	<style type="text/css" media="screen">
-		body { background-color:#CCC; }
-		h1 { text-align: center; overflow: visible; margin-bottom:20px;font-family: 'rothenbg', cursive;font-size: 3em; line-height: 1em; font-weight: normal; padding: 0;}
-		blockquote { font-style: italic; margin: 0; padding: 20px; }
-		blockquote p { margin:0; padding:10px; }
-		cite { font-style: normal; display: block; text-align: right; }
-		cite::before { content: "— "; }
-		#jar { width:440px; background: transparent url(./images/jar.png) no-repeat top center;margin:0;line-height: 0; padding:140px 50px 150px 50px;height:600px; background-size: 500px 890px;overflow: visible; float:left; }
-		#jar span { width:18px; height:18px; display:block; border:1px solid #CCC; background-color: #000; color:#FFF;font-size: 1em; text-align:center; overflow: hidden; line-height: 1.1em; float:left;}
-		#jar .dead { background-color: transparent; border:1px solid #CCC; -webkit-transition: background-color 5s; transition: background-color 5s; } 
-		#case { min-width: 1000px; margin:auto;}
-		.panel { background-color: #DDD; border:3px solid #666; margin: 0 20px 20px 550px; }
-		#buttons { list-style-type: none; }
-		#buttons li { display: inline-block; }
-		#buttons li a { display: block; width:98px; height: 20px; border:1px solid #000; text-align: center; padding: 39px 0; color: #000; text-decoration: none; border-radius: 50px; }
-		#buttons li a:link, #buttons li a:visited { color:#DDD; background-color: #000; }
-		#buttons li a:focus, #buttons li a:hover, #buttons li a:active { color:#000; background-color: #DDD; }
+		body { background:	url(./images/life-1.png) no-repeat 0 0, 
+							url(./images/life-2.png) no-repeat 100% 70%,
+							url(./images/life-3.png) no-repeat 20% 65%,
+							url(./images/life-4.png) no-repeat 5% 30%,
+							url(./images/life-5.png) no-repeat 95% 10%,
+							url(./images/life-6.png) no-repeat 65% 0%,
+							url(./images/life-7.png) no-repeat 80% 20%,
+							url(./images/life-8.png) no-repeat 75% 60%,
+							url(./images/life-9.png) no-repeat 10% 95%,
+							url(./images/life-10.png) no-repeat 90% 90%;
+							background-color:#FFF; 
+							background-size: 100px,100px,100px,150px,100px,100px,100px,100px,100px,100px; }
+		h1 { text-align: center; padding:0; margin:40px 0 0 0;}
+		#jar { width:440px; margin:0;line-height: 0; height:440px; overflow: visible; }
+		#jar span { width:18px; height:18px; display:block; border:1px solid #AAA; background-color: #000; color:#FFF;font-size: 1em; text-align:center; overflow: hidden; line-height: 1.1em; float:left;}
+		#jar .dead { background-color: transparent; border:1px solid #AAA; -webkit-transition: background-color 5s; transition: background-color 5s; } 
+		#case { margin:auto; width:440px;}
+		#buttons { list-style-type: none; line-height: 1.7em; padding:0; margin:0;}
+		#buttons li { display: inline; }
+		#buttons li a { color: #000; text-decoration: none; }
+		#start img { width: 134px;}
+		#end img { width: 129px;}
+		#end { float:right;}
+		#fig5 {width:100%;padding-top:20px;}
+
 		@media screen and (max-width: 768px), screen and (max-device-width: 480px) {
-			#case {
-				min-width:0;
-			}
-			#jar {
-				float:none;
-				height:600px;
-				margin: auto;
-			}
-			.panel {
-				clear:left;
-				margin:20px;
-			}
+			body { background:	url(./images/life-1.png) no-repeat 0 0, 
+							url(./images/life-2.png) no-repeat 100% 70%,
+							url(./images/life-3.png) no-repeat 20% 65%,
+							url(./images/life-7.png) no-repeat 80% 20%,
+							url(./images/life-8.png) no-repeat 75% 60%,
+							url(./images/life-9.png) no-repeat 10% 95%;
+							background-size: 100px,100px,100px,100px,100px,100px; }
+
+
 		}
 		@media screen and (max-device-width: 500px) {
-			h1 { font-size: 2em; margin: 20px 0; }
-			blockquote { padding: 10px; }
-			#jar { width:280px; margin:auto; padding:100px 20px 150px 20px;height:340px; background-size: 320px;overflow: visible; }
+			body { background:	url(./images/life-1.png) no-repeat 0 0, 
+								url(./images/life-2.png) no-repeat 100% 80%,
+								url(./images/life-3.png) no-repeat 20% 65%,
+								url(./images/life-8.png) no-repeat 75% 40%,
+								url(./images/life-9.png) no-repeat 10% 95%;
+								background-size: 100px,100px,100px,100px,100px; }
+			#case { width:280px;}
+			#jar { width:280px; height:280px; }
+
 		}
 	</style>
 	<script type="text/javascript">
@@ -185,7 +197,7 @@
 		/* Seed the cell culture */
 		function initIncubation () {
 			/* Add controls */
-			var beginButton = document.getElementById('begin');
+			var beginButton = document.getElementById('start');
 			var endButton = document.getElementById('end');
 			beginButton.onclick = beginNewIncubation;
 			endButton.onclick = endIncubation;
@@ -220,20 +232,14 @@
 </head>
 <body>
 	<div id="case">
-	<div id="jar">
-	<h1>Denton's <br><i>Game of Life</i></h1>
-	</div>
-	<div class="panel">
-		<h1>Controls</h1>
+		<h1><img src="./images/dentons-game-of-life.png" alt="Denton's Game of Life" /></h1>
 		<ul id="buttons">
-			<li><a id="begin" href="#">Begin</a></li>
-			<li><a id="end" href="#">End</a></li>
+			<li><a id="start" href="#start"><img src="./images/start-experiment.png" alt="start experiment" /></a></li>
+			<li><a id="end" href="#end"><img src="./images/end-experiment.png" alt="end experiment" /></a></li>
 		</ul>
-	</div>
-	<div class="panel">
-		<h1>About</h1>
-		<blockquote><p>Professor Clark of Harvard College, who gives a detailed account of these experiments, says, <q>The fact that the experiments with the sealed flasks proved, if any thing can be proved beyond the reach of change or improvement, is that beings with motion, undoubted living beings, were produced where life could not have existed previously</q>. No failures to obtain living beings under any circumstances can overthrow the evidences of spontaneous generation furnished by such experiments as these.</p><cite>William Denton, <i>Is Darwin Right?</i></cite></blockquote>
-	</div>
+		<div id="jar">
+		</div>
+		<img id="fig5" alt="Fig.5. Some of the most common forms of life, supposed to have been produced spontaneously." src="./images/fig5.png" />
 	</div>
 </body>
 </html>
